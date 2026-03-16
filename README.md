@@ -63,13 +63,33 @@ npm run test:coverage # coverage report
 
 11 unit test files covering components in `src/components/*/__test__/`.
 
-### E2E Tests (Playwright)
+### playwright-cli Evaluation
 
-```bash
-npm run test:e2e      # run Playwright tests
-```
+This repo was used to evaluate [microsoft/playwright-cli](https://github.com/microsoft/playwright-cli) as part of Boozang's MCP strategy research. Results are in `tests/e2e/`:
 
-Playwright is installed but e2e tests and config are not yet set up.
+| Document | Description |
+|----------|-------------|
+| [RATING.md](tests/e2e/RATING.md) | Overall rating: 6.5/10 with category breakdowns |
+| [SESSION-REPORT.md](tests/e2e/SESSION-REPORT.md) | Full session metrics, token usage, effectiveness analysis |
+| [NOTES.md](tests/e2e/NOTES.md) | Detailed findings — gaps, strengths, learnings per test |
+| [THELAB-IMPROVEMENTS.md](tests/e2e/THELAB-IMPROVEMENTS.md) | Recommendations for improving TheLab as a test target |
+
+**12 test cases** covering all major routes with 33 screenshots:
+
+| Test Case | Route | Key Finding |
+|-----------|-------|-------------|
+| [Speed Game](tests/e2e/speed-game.md) | `/speedGame` | No wait-for-element, 16s overhead |
+| [Wait Game](tests/e2e/wait-game.md) | `/waitGame` | 20s timing overhead on 6s test |
+| [Yellow or Blue](tests/e2e/yellow-or-blue.md) | `/yellowOrBlue` | Stale snapshots: 0/10 → 10/10 after fix |
+| [Cat or Dog](tests/e2e/cat-or-dog.md) | `/catOrDog` | Image alt text works, no visual analysis |
+| [Sorted List](tests/e2e/sorted-list.md) | `/sortedList` | CRUD + smart selectors, max limit works |
+| [Unsorted List](tests/e2e/unsorted-list.md) | `/unsortedList` | Random position verified across 5 runs |
+| [Form Fill](tests/e2e/form-fill.md) | `/formFill` | Multi-field fill, validation, table parsing |
+| [Cat Shelter](tests/e2e/cat-shelter.md) | `/catshelter` | Multi-page CRUD, toggle state invisible |
+| [Tables](tests/e2e/tables.md) | `/tables` | Filters, pagination, checkbox state |
+| [Visual Bugs](tests/e2e/visual-bugs.md) | `/visualBugs` | Completely blind to visual content |
+| [Scramble](tests/e2e/scramble.md) | `/scramble` | HTML id/class invisible in snapshots |
+| [Concat Strings](tests/e2e/concat-strings.md) | `/concatStrings` | 10/10 read-transform-act reliability |
 
 ## Scripts
 
