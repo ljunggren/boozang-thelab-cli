@@ -114,6 +114,7 @@ Use `tracing-start`/`tracing-stop` to record full interaction traces for debuggi
 | Cat or Dog | [cat-or-dog.md](cat-or-dog.md) | `/catOrDog` | Image alt text reading, visual content limitations |
 | Sorted List | [sorted-list.md](sorted-list.md) | `/sortedList` | CRUD, fill, list order, max limit, API interaction |
 | Unsorted List | [unsorted-list.md](unsorted-list.md) | `/unsortedList` | Random insertion position, non-deterministic verification |
+| Form Fill | [form-fill.md](form-fill.md) | `/formFill` | Multi-field form, validation, table CRUD, row-scoped delete |
 
 ## TheLab Routes Worth Testing
 
