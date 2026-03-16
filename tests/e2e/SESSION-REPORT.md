@@ -43,6 +43,24 @@ Estimated breakdown:
 
 The 1M context window was appropriate — a smaller context would have required more aggressive summarization of CLI output and snapshot data.
 
+### Token Efficiency: playwright-cli vs playwright-mcp
+
+**~800K tokens for 12 complete e2e test cases is efficient.** This compares favorably to playwright-mcp (MCP-based browser control), which typically consumes more tokens per test due to:
+
+- **MCP tool call overhead** — each MCP call includes full JSON schema, request/response framing
+- **Accessibility tree dumps** — MCP snapshot equivalents often return full accessibility trees (verbose)
+- **No YAML compression** — playwright-cli's snapshot YAML is deliberately compact and token-optimized for AI agents
+
+playwright-cli's design explicitly targets token efficiency:
+- Compact `ref`-based element targeting (3-4 chars per ref vs full selector strings)
+- Snapshot YAML uses indentation hierarchy instead of nested JSON objects
+- Only relevant page content included (no full accessibility tree dump)
+- Each CLI command returns focused output (just the action result + new snapshot path)
+
+**Per-test-case cost: ~65K tokens average** (800K / 12 tests). This includes component research via sub-agents, multiple snapshots, screenshots, and documentation. In a production setup without sub-agent research, the per-test cost would be significantly lower (~20-30K estimated).
+
+This is a key strategic data point: **playwright-cli's token efficiency is a real competitive advantage**. Any Boozang MCP alternative should target similar or better token-per-test ratios.
+
 ### Duration Breakdown
 
 | Phase | Time | Commits |
