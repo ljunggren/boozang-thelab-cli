@@ -119,6 +119,7 @@ Use `tracing-start`/`tracing-stop` to record full interaction traces for debuggi
 | Tables | [tables.md](tables.md) | `/tables` | Filters, pagination, checkbox state, table parsing, toggle |
 | Visual Bugs | [visual-bugs.md](visual-bugs.md) | `/visualBugs` | Image carousel, visual analysis limitation, screenshot capture |
 | Scramble | [scramble.md](scramble.md) | `/scramble` `/multiScramble` | DOM mutations, id/class invisibility, element interception |
+| Concat Strings | [concat-strings.md](concat-strings.md) | `/concatStrings` | Data extraction, read-transform-act, 10/10 reliability |
 
 ## TheLab Routes Worth Testing
 
