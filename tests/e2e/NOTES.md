@@ -118,6 +118,7 @@ Use `tracing-start`/`tracing-stop` to record full interaction traces for debuggi
 | Cat Shelter | [cat-shelter.md](cat-shelter.md) | `/catshelter` `/addcat` `/cats/:id` | Multi-page CRUD, navigation, radio, toggle state |
 | Tables | [tables.md](tables.md) | `/tables` | Filters, pagination, checkbox state, table parsing, toggle |
 | Visual Bugs | [visual-bugs.md](visual-bugs.md) | `/visualBugs` | Image carousel, visual analysis limitation, screenshot capture |
+| Scramble | [scramble.md](scramble.md) | `/scramble` `/multiScramble` | DOM mutations, id/class invisibility, element interception |
 
 ## TheLab Routes Worth Testing
 
