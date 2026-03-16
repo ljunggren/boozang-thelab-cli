@@ -1,81 +1,93 @@
-# theLab Boozang
+# TheLab CLI
 
-## Description
-
-Frontend platform built with React.js for learning test automation and the Boozang tool. Some accessibility improvements. Version 3 April 2022.
+Interactive web app for learning and practicing test automation. Built with React, designed as a clean target for Playwright end-to-end testing.
 
 ![Screenshot](/src/assets/screenshot.jpg?raw=true "Screenshot")
 
-##### Url: http://thelab.boozang.com/
+## Quick Start
 
-## Installation
+```bash
+npm install
+./scripts/start.sh     # starts React dev server (port 3000) + json-server (port 9000)
+./scripts/status.sh    # check running services
+./scripts/stop.sh      # stop all services
+```
 
-To clone
+## Architecture
 
-`git clone https://github.com/karinlj/boozang-thelab.git`
+- **Frontend:** React 18 with React Router v5, SCSS, Bootstrap 4
+- **Backend:** json-server serving `data/db.json` on port 9000
+- **Proxy:** React dev server proxies API requests to json-server
 
-To install
+### API Endpoints (json-server)
 
-`cd boozang-thelab`
+| Endpoint | Description |
+|----------|-------------|
+| `/todos` | Todo items (CRUD) |
+| `/cats` | Cat shelter entries (CRUD) |
+| `/users` | User accounts (CRUD) |
 
-`npm install`
+### App Routes
 
-Install json-server
+| Route | Description |
+|-------|-------------|
+| `/` | Home page |
+| `/introduction` | Introduction |
+| `/overview` | Overview |
+| `/catshelter` | Cat shelter listing |
+| `/addcat` | Add a new cat |
+| `/cats/:cat_id` | Cat details |
+| `/formFill` | User form with validation |
+| `/sortedList` | Sorted list |
+| `/unsortedList` | Unsorted list |
+| `/tables` | Data tables |
+| `/speedGame` | Reaction time game |
+| `/waitGame` | Wait timing game |
+| `/visualBugs` | Visual bug detection |
+| `/yellowOrBlue` | Color matching |
+| `/catOrDog` | Image identification |
+| `/scramble` | DOM scramble |
+| `/multiScramble` | Multiple DOM scramble |
+| `/concatStrings` | String concatenation |
+| `/kittenCollect` | Kitten collection game |
+| `/canvasGame` | Canvas-based game |
 
-`npm install -g json-server`
+## Testing
 
-To run db with json-server (can be run in different terminal)
+### Unit Tests (Jest + React Testing Library)
 
-`json-server --watch data/db.json --port 9000`
+```bash
+npm test              # watch mode
+npm run test:coverage # coverage report
+```
 
-To run
+11 unit test files covering components in `src/components/*/__test__/`.
 
-`npm start`
+### E2E Tests (Playwright)
 
-## To build
+```bash
+npm run test:e2e      # run Playwright tests
+```
 
-`npm run build`
+Playwright is installed but e2e tests and config are not yet set up.
 
-Then use the dist folder you get.
+## Scripts
+
+See [scripts/README.md](scripts/README.md) for details on the process management scripts.
 
 ## Built With
 
-- React.js
-- Scss
-- Bootstrap 4
-- Semantic HTML5
+- React 18
+- React Router 5
+- SCSS / Bootstrap 4
+- json-server
+- Jest + React Testing Library
+- Playwright (e2e)
 
-## Multi-Agent Development
-
-This repo uses a multi-agent workflow with two AI agents:
-
-- **Devin** — Autonomous engineer. Picks up GitHub issues, writes code, opens PRs.
-- **Claude Code** — Reviewer and merge master. Reviews PRs, runs checks, merges or requests changes.
-
-### Triggering Devin
-
-```bash
-# Trigger a Devin session from a GitHub issue
-./scripts/trigger-devin.sh <issue-number>
-
-# Poll for Devin PRs and auto-merge when CI passes
-./scripts/poll-devin-pr.sh [interval-seconds] [auto-merge: true|false]
-```
-
-Requires `DEVIN_API_KEY` in `.env` (see `.env.template`).
-
-See `.devin/multi-agent-workflow.md` for the full workflow and review protocol.
-
-## Author
+## Original Author
 
 - **Karin Ljunggren** - [karinlj](https://github.com/karinlj)
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-- Mosh Hamedani: https://codewithmosh.com/
-- The Net Ninja: [The Net Ninja](https://www.youtube.com/channel/UCW5YeuERMmlnqo4oq8vwUpg)
-- Traversy Media [Traversy Media](https://www.youtube.com/channel/UC29ju8bIPH5as8OGnQzwJyA)
+MIT License - see [LICENSE.md](LICENSE.md) for details.
