@@ -117,6 +117,7 @@ Use `tracing-start`/`tracing-stop` to record full interaction traces for debuggi
 | Form Fill | [form-fill.md](form-fill.md) | `/formFill` | Multi-field form, validation, table CRUD, row-scoped delete |
 | Cat Shelter | [cat-shelter.md](cat-shelter.md) | `/catshelter` `/addcat` `/cats/:id` | Multi-page CRUD, navigation, radio, toggle state |
 | Tables | [tables.md](tables.md) | `/tables` | Filters, pagination, checkbox state, table parsing, toggle |
+| Visual Bugs | [visual-bugs.md](visual-bugs.md) | `/visualBugs` | Image carousel, visual analysis limitation, screenshot capture |
 
 ## TheLab Routes Worth Testing
 
