@@ -1,0 +1,314 @@
+@import "./variables.scss";
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  font-family: "Quicksand", "Helvetica Neue", sans-serif;
+  background: $themecolorLila;
+}
+#root {
+  height: 100%;
+}
+.container {
+  // max-width: 1280px;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  @media all and (min-width: $xxl-min) {
+    max-width: 1280px;
+  }
+}
+img {
+  max-width: 100%;
+  border-radius: $themeBorderRadius;
+}
+//reset
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.table {
+  color: #212529;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+}
+//typgrafi
+h1 {
+  margin-bottom: 0.8rem;
+  font-size: 2rem;
+  @media all and (min-width: $sm-min) {
+    font-size: 2.1rem;
+  }
+  @media all and (min-width: $lg-min) {
+    font-size: 2.3rem;
+    margin-bottom: 1rem;
+  }
+  @media all and (min-width: $xl-min) {
+    font-size: 2.5rem;
+  }
+  @media all and (min-width: 1500px) {
+    font-size: 2.7rem;
+    margin-bottom: 1.3rem;
+  }
+}
+h2 {
+  font-size: 1.4rem;
+  @media all and (min-width: $md-min) {
+    font-size: 1.5rem;
+  }
+  @media all and (min-width: $xl-min) {
+    font-size: 1.7rem;
+  }
+}
+h3 {
+  font-size: 1rem;
+  @media all and (min-width: $md-min) {
+    font-size: 1.1rem;
+  }
+  @media all and (min-width: $xl-min) {
+    font-size: 1.2rem;
+  }
+}
+h4 {
+  font-size: 1.4rem;
+  @media all and (min-width: $lg-min) {
+    font-size: 1.5rem;
+  }
+}
+p {
+  font-size: 1rem;
+  @media all and (min-width: $sm-min) {
+    font-size: 1.1rem;
+  }
+  &.preamble {
+    font-weight: 500;
+    font-size: 1.2rem;
+    @media all and (min-width: $sm-min) {
+      font-size: 1.3rem;
+    }
+    @media all and (min-width: $xl-min) {
+      font-size: 1.5rem;
+    }
+  }
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+th,
+td {
+  color: #fff;
+}
+.code {
+  font-family: "Inconsolata", monospace;
+  font-size: 0.8rem;
+  color: $navLinkColor;
+  margin-bottom: 0.5rem;
+  padding: 3px;
+}
+
+//links
+a {
+  text-decoration: none;
+}
+a:not(.link_btn, .link, .cat_name_link) {
+  position: relative;
+  color: $linkColor;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease-in;
+  white-space: nowrap;
+  &:hover {
+    color: $linkColor;
+    text-decoration: none;
+    &::before {
+      opacity: 0.7;
+      width: 100%;
+    }
+  }
+  &::before {
+    opacity: 0;
+    width: 0;
+    position: absolute;
+    bottom: -4px;
+    left: 1px;
+    content: "";
+    height: 3px;
+    background: $linkColor;
+    -webkit-transition: width 0.3s ease-in;
+    transition: width 0.3s ease-in;
+  }
+  &::after {
+    opacity: 0.3;
+    width: 100%;
+    position: absolute;
+    bottom: -4px;
+    left: 1px;
+    content: "";
+    height: 3px;
+    background: $linkColor;
+  }
+  &:active {
+    //when click
+    color: $linkColor;
+  }
+}
+
+//content
+.main_content_section {
+  margin-top: 8rem;
+  //min-height: 600px;
+  padding: 0 calc(1.5rem - 15px) 10rem calc(1.5rem - 15px);
+  @media all and (min-width: $sm-min) {
+    padding: 0 calc(2.25rem - 15px) 10rem calc(2.25rem - 15px);
+  }
+  @media all and (min-width: $md-min) {
+    padding: 0 calc(3rem - 15px) 10rem calc(3rem - 15px);
+  }
+  @media all and (min-width: $xl-min) {
+    padding: 0 calc(3.75rem - 15px) 10rem calc(3.75rem - 15px);
+  }
+  .error {
+    color: $themecolorNewPinkLight;
+  }
+  .card {
+    border-radius: $themeBorderRadius;
+  }
+}
+
+//buttons
+button {
+  cursor: default !important ;
+}
+.btn_section {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+.icon_btn {
+  border: none;
+  background: transparent;
+  transition: all 0.3s ease-in;
+  &:hover {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0 0) !important;
+  }
+}
+.delete_icon {
+  color: $themecolorNewRed !important;
+  transition: 0.5s all ease;
+  padding: 5px;
+}
+input[type="button"],
+.form_btn,
+.link_btn {
+  display: inline-block;
+  padding: 0.2rem 0.9rem;
+  transition: 0.5s all ease;
+  border: none;
+  border-radius: $themeBorderRadius;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1.8;
+  margin-right: 0.5rem;
+  width: auto;
+  box-shadow: $themeBoxShadowLight;
+  color: #fff;
+  &:hover {
+    //filter: brightness(130%);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0 0) !important;
+    text-decoration: none;
+  }
+  &.add {
+    background: $themecolorGreen;
+  }
+  &.adding {
+    opacity: 0.7;
+  }
+  &.cancel {
+    background: #ddd;
+    color: $themecolor;
+  }
+  &.delete {
+    background: $themecolorNewRed;
+  }
+  &.blue {
+    background: $themecolorButtonBlue;
+  }
+  &.yellow {
+    background: $themecolorYellow;
+  }
+  &.pink {
+    background: $themecolorNewPink;
+  }
+  &.pink_dark {
+    background: $themecolorNewPink;
+  }
+  &.turqoise {
+    background: $themecolorTurqoise;
+  }
+  &.purple {
+    background: $themecolorPurple;
+  }
+  &.orange {
+    background: $themecolorOrange;
+  }
+}
+.link_btn {
+  &:hover {
+    color: #fff;
+  }
+}
+button.form_btn {
+  cursor: default;
+  &:hover {
+    cursor: default;
+  }
+}
+
+// icons
+.fas.fa-paw {
+  color: $themecolorNewRed;
+  margin-right: 0.5rem;
+}
+.not_found {
+  img {
+    max-width: 130px;
+    padding: 0.5rem;
+    @media all and (min-width: $sm-min) {
+      max-width: 190px;
+    }
+  }
+}
+//sticky footer
+.App {
+  height: 100%;
+}
+.App {
+  display: flex;
+  flex-direction: column;
+  .content_section {
+    flex: 1 0 auto;
+  }
+  footer {
+    flex-shrink: 0;
+  }
+}

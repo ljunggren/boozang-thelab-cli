@@ -1,0 +1,128 @@
+import { useState } from "react";
+import "./form.scss";
+import { FormFillVideos } from "../text/videos/VideoSections";
+import { FormFillIntro } from "../text/Intros";
+import { FormFillTestInfo } from "../text/WhyLearn";
+import { FormFillWhatToTest } from "../text/WhatToTest";
+import { addData } from "../fetchFunctions/fetchFunctions";
+import { getData } from "../fetchFunctions/fetchFunctions";
+import { deleteData } from "../fetchFunctions/fetchFunctions";
+import Form from "./Form";
+import PrintForm from "./PrintForm";
+import { UsersDb } from "../text/DbInfo";
+
+function FormFill() {
+  const [users, setUsers] = useState(null);
+  const [error, setError] = useState(null);
+  const [saveMessage, setSaveMessage] = useState(false);
+  const [printForm, setPrintForm] = useState(false);
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+  });
+  const usersUrl = "/users/";
+
+  const getUsers = async () => {
+    const usersFromServer = await getData(usersUrl);
+    //setting Gui state
+    setUsers(usersFromServer.reverse());
+    if (usersFromServer) {
+      setError(null);
+    } else {
+      setError("Ooops!! Could not fetch data...");
+    }
+    setPrintForm(true);
+    setSaveMessage(false);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  //handle form errors
+  const validate = (data) => {
+    let status = 0;
+    if (data.password.length < 6) {
+      return [status, "Password needs to be at least 6 characters."];
+    } else {
+      return [1, "ok"];
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newUser = {
+      ...formData,
+    };
+    let [status, message] = validate(newUser);
+    //if there are errors
+    if (status !== 1) {
+      setError(message);
+      return;
+    }
+    setError(null);
+    const addUserToServer = await addData(usersUrl, newUser);
+    //handle errors in data fetching
+    if (!addUserToServer) {
+      setError("Ooops!! Could not add data...");
+      return;
+    }
+    setSaveMessage(true);
+    setFormData({
+      firstname: "",
+      lastname: "",
+      email: "",
+      password: "",
+    });
+    setPrintForm(false);
+  };
+  const deleteUser = async (id) => {
+    await deleteData(usersUrl, id);
+    setUsers(
+      users.filter((user) => {
+        return user.id !== id;
+      })
+    );
+  };
+  return (
+    <div className="row justify-content-between">
+      <div className="col-12 col-md-6 col-xl-5">
+        <section className="form_section">
+          <FormFillIntro />
+          {error && <p className="error">{error}</p>}
+          <Form formData={formData} handleChange={handleChange} saveMessage={saveMessage} handleSubmit={handleSubmit} />
+
+          {!printForm && (
+            <button onClick={getUsers} className="form_btn orange">
+              Show users in db
+            </button>
+          )}
+          {printForm && (
+            <button
+              onClick={() => {
+                setPrintForm(false);
+              }}
+              className="form_btn orange"
+            >
+              Hide users in db
+            </button>
+          )}
+          {users && <PrintForm printForm={printForm} users={users} deleteUser={deleteUser} />}
+        </section>
+      </div>
+      <div className="col-12 col-md-6">
+        <FormFillTestInfo />
+        <FormFillWhatToTest />
+        <UsersDb />
+        <FormFillVideos />
+      </div>
+    </div>
+  );
+}
+export default FormFill;

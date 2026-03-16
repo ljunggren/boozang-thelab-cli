@@ -1,0 +1,135 @@
+@import "../../variables.scss";
+
+//TodoList mm
+.loading {
+  color: #fff;
+}
+.collection {
+  box-shadow: $themeBoxShadow;
+  .collection_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    line-height: 1.5rem;
+    padding: 15px 20px;
+    margin: 0;
+    border-bottom: 1px solid $themeBorderColor;
+    color: $themecolor;
+    &:first-of-type {
+      border-radius: $themeBorderRadius $themeBorderRadius 0 0;
+    }
+    &:last-of-type {
+      border-radius: 0 0 $themeBorderRadius $themeBorderRadius;
+    }
+    span {
+      color: $themecolor;
+    }
+  }
+}
+//AddTodo
+.list_form {
+  border-radius: $themeBorderRadius;
+  box-shadow: $themeBoxShadow;
+  background-color: #fff;
+  line-height: 1.5rem;
+  padding: 0.9rem 1.4rem;
+  margin: 0;
+  border-bottom: 1px solid $themeBorderColor;
+  color: $themecolor;
+  margin-top: 1rem;
+  label {
+    width: 100%;
+    color: $themecolor;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    width: 100%;
+    padding-right: 0.5rem;
+    border: none;
+    border-bottom: 1px solid $themeBorderColor;
+  }
+  .error {
+    color: $themecolorNewRed;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+}
+
+//cat shelter
+.catshelter_section {
+  .cat_shelter_header {
+    padding: 0 0 1rem 0;
+    display: flex;
+    justify-content: flex-end;
+    a {
+      color: #fff;
+    }
+  }
+  .new_home {
+    border: none;
+    background: transparent;
+    padding: 5px;
+    &:hover {
+      filter: brightness(70%);
+    }
+  }
+  //add cat, catDetails
+  .add_cat_header,
+  .single_cat_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+    h1 {
+      margin-bottom: 0;
+    }
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+  //catDetails
+  .single_cat_form_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    .cat_name {
+      display: flex;
+      align-items: center;
+      i {
+        font-size: 1.3rem;
+        margin-right: 0.5rem;
+        color: $themecolorLila;
+      }
+      input {
+        border-bottom: none;
+      }
+    }
+  }
+  .list_form {
+    margin-top: 0;
+  }
+
+  .new_home {
+    color: #ddd;
+    cursor: pointer;
+    // transition: all 0.3s ease;
+    padding: 5px;
+    &.found {
+      color: $themecolorLila;
+    }
+  }
+  .go_out_or_not {
+    input {
+      width: auto;
+      margin-right: 0.5rem;
+    }
+  }
+}

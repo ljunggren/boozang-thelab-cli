@@ -1,0 +1,35 @@
+@import "../../variables.scss";
+.visual_bugs_section {
+  /* https://css-tricks.com/aspect-ratio-boxes/ */
+  .aspect_ratio_box {
+    height: 0;
+    overflow: hidden;
+    padding-top: calc(380px / 640px * 100%);
+    position: relative;
+    .aspect_ratio_inside {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      img {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+  }
+  .label_wrapper {
+    padding: 0.7rem;
+    background-color: $themecolorLilaDark;
+    border-bottom-left-radius: $themeBorderRadius;
+    border-bottom-right-radius: $themeBorderRadius;
+    margin-bottom: 1rem;
+    p {
+      font-weight: 600;
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      margin-bottom: 0;
+    }
+  }
+}

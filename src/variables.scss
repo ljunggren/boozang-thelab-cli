@@ -1,0 +1,46 @@
+//screen width
+$xs-max: 480px;
+$sm-min: 576px;
+
+$sm-max: 767.9px;
+$md-min: 768px;
+
+$md-max: 991.9px;
+$lg-min: 992px;
+
+$lg-max: 1199.9px;
+$xl-min: 1200px;
+
+$xl-max: 1309px;
+$xxl-min: 1600px;
+
+//colors
+$themecolorYellow: #ffcc33; //#cdbb18;
+$themecolorLightgrey: #f9f9f9;
+$themecolorPurple: #6a2e99;
+$themecolorTurqoise: #00adb3;
+$themecolorOrange: #e6782e;
+$themecolorGreen: #15b756; //#57b33e;
+$themecolorGreenDark: #0d7236;
+
+//new colors
+$themecolorNewPinkLight: #f688a9;
+$themecolorNewPink: #e74a79; //#f24d7f
+$themecolorNewRed: #f1356d;
+$themecolorBlueNewLightest: #cce6ff;
+$themecolorButtonBlue: #3399ff;
+//main bg colors
+$themecolorLila: #2a2966;
+$themecolorLilaDark: #2c407d;
+$themecolorLilaDarkest: #161637;
+//text and other colors
+$themecolor: #222;
+$themecolorDarker: #111;
+$navLinkColor: #d3d6df;
+// $linkColor: #75bff0;
+$linkColor: #a3d4f5;
+$themeBorderColor: #e0e0e0;
+
+$themeBorderRadius: 3px;
+$themeBoxShadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19);
+$themeBoxShadowLight: rgba(0, 0, 0, 0.24) 0px 3px 8px; //rgba(149, 157, 165, 0.2) 0px 5px 14px;

@@ -1,0 +1,151 @@
+@import "../../variables.scss";
+
+//introductions
+.intro_section {
+  margin-bottom: 3rem;
+  p {
+    white-space: pre-line;
+  }
+  a {
+    color: $linkColor;
+  }
+  ul._list {
+    list-style-type: square;
+    padding: 0 0 0 1rem;
+    li {
+      font-size: 0.9rem;
+      color: #fff;
+    }
+  }
+}
+//db info section
+.db_info_box {
+  background: $themecolorLilaDark;
+  padding: 0.8rem 1.8rem;
+  border-radius: $themeBorderRadius;
+  margin-bottom: 3rem;
+  a {
+    word-wrap: break-word;
+  }
+  p {
+    margin: 0;
+  }
+}
+//video_section
+.video_section {
+  margin-top: 3rem;
+  @media all and (min-width: $md-min) {
+    margin-top: 0;
+  }
+  li {
+    margin-bottom: 1rem;
+  }
+  a.youtube_link {
+    display: flex;
+    align-items: center;
+    white-space: normal;
+    .youtube_logo {
+      max-width: 2.2rem;
+      max-height: 2rem;
+    }
+    span {
+      position: relative;
+      line-height: 1.2;
+      &:hover {
+        &::before {
+          opacity: 0.6;
+          width: 100%;
+        }
+      }
+      &::before {
+        opacity: 0;
+        width: 0;
+        position: absolute;
+        bottom: -4px;
+        left: 1px;
+        content: "";
+        height: 3px;
+        background: $linkColor;
+        -webkit-transition: width 0.3s ease-in;
+        transition: width 0.3s ease-in;
+      }
+      &::after {
+        opacity: 0.3;
+        width: 100%;
+        position: absolute;
+        bottom: -4px;
+        left: 1px;
+        content: "";
+        height: 3px;
+        background: $linkColor;
+        -webkit-transition: width 0.3s ease-in;
+        transition: width 0.3s ease-in;
+      }
+    }
+    //not underlining the whole <a>
+    &:hover {
+      &::before {
+        opacity: 0;
+      }
+    }
+    &::after {
+      opacity: 0;
+    }
+  }
+}
+
+//test info box
+.why_learn {
+  background: $themecolorBlueNewLightest;
+  h2,
+  p {
+    color: $themecolorLilaDark;
+  }
+}
+//What to test and How to test
+.what_to_test {
+  ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    li {
+      list-style-type: disc;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+  }
+  .link_btn {
+    margin-bottom: 1rem;
+  }
+  p {
+    font-size: 1rem;
+  }
+}
+//cucumber
+.cucumber {
+  .gherkin {
+    font-weight: bold;
+  }
+}
+.why_learn,
+.what_to_test {
+  margin-bottom: 3rem;
+  min-height: 150px;
+  padding: 1.3rem 1.8rem;
+  border-radius: $themeBorderRadius;
+  box-shadow: $themeBoxShadow;
+  margin-top: 5rem;
+  @media all and (min-width: $md-min) {
+    margin-top: 0rem;
+  }
+  p {
+    white-space: pre-line;
+  }
+  &.games {
+    @media all and (min-width: $md-min) {
+      margin-top: 4rem;
+    }
+    @media all and (min-width: $xl-min) {
+      margin-top: 0;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+@import "../../variables.scss";
+.conditional_section {
+  .wrapper {
+    min-height: 160px;
+    button {
+      max-width: 300px;
+      margin-bottom: 2rem;
+    }
+    .output_section {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transition: 0.5s all ease-in;
+      &.show {
+        opacity: 1;
+      }
+      h5.color {
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+      }
+      .image {
+        padding: 0 0.5rem 2rem 0;
+      }
+      .btn_section {
+        margin-top: 0;
+        display: flex;
+        justify-content: flex-start;
+        // align-items: center;
+        // input {
+        //   margin-bottom: 0;
+        // }
+        .result_wrapper {
+          margin-top: 0;
+          .success_message {
+            margin-left: 1rem;
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}

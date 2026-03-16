@@ -1,0 +1,61 @@
+@import "../../variables.scss";
+
+.scramble_section {
+  input,
+  button {
+    width: 100%;
+    margin-bottom: 1rem;
+    &.green_dark {
+      background: $themecolorGreenDark;
+    }
+  }
+  .scramble_code {
+    box-shadow: $themeBoxShadow;
+    border-radius: $themeBorderRadius;
+    margin: 2rem 0;
+    padding: 0.8rem;
+    // .code style: index.scss
+    .clicked_class {
+      background: $themecolorLilaDarkest;
+    }
+  }
+  .animal_btns {
+    position: relative;
+    height: 200px;
+    background: $themecolorLilaDark;
+    box-shadow: $themeBoxShadow;
+    border-radius: $themeBorderRadius;
+    input {
+      width: auto;
+      margin: 0;
+      position: absolute;
+      &[name="btnOne"] {
+        top: 0;
+        left: 0;
+      }
+      &[name="btnTwo"] {
+        top: 0px;
+        left: 0px;
+      }
+    }
+  }
+  //scramble_btns
+  #small {
+    padding: 0.2rem 0.9rem;
+  }
+  #big {
+    padding: 0.6rem 1.3rem;
+  }
+  //multi scramble
+  form {
+    margin-bottom: 2rem;
+    padding-bottom: 0;
+  }
+  .multiscramble_btn_section {
+    input[type="text"] {
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
