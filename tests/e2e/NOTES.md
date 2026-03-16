@@ -115,6 +115,7 @@ Use `tracing-start`/`tracing-stop` to record full interaction traces for debuggi
 | Sorted List | [sorted-list.md](sorted-list.md) | `/sortedList` | CRUD, fill, list order, max limit, API interaction |
 | Unsorted List | [unsorted-list.md](unsorted-list.md) | `/unsortedList` | Random insertion position, non-deterministic verification |
 | Form Fill | [form-fill.md](form-fill.md) | `/formFill` | Multi-field form, validation, table CRUD, row-scoped delete |
+| Cat Shelter | [cat-shelter.md](cat-shelter.md) | `/catshelter` `/addcat` `/cats/:id` | Multi-page CRUD, navigation, radio, toggle state |
 
 ## TheLab Routes Worth Testing
 
