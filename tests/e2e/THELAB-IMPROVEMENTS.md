@@ -1,117 +1,183 @@
 # TheLab Improvements
 
-Recommendations for making TheLab a better test automation target, based on the playwright-cli evaluation session.
+TheLab's purpose is to be a **test automation test bed** — an app designed to be tested by tools. Every improvement should make the app easier and more valuable to automate against, not harder. The goal is comprehensive coverage of real-world test automation challenges with predictable, well-documented behavior.
 
 ---
 
-## High Priority
+## Design Principles for a Test Bed
 
-### 1. Add missing `data-testid` attributes
-Some elements lack test IDs, making them harder to target reliably:
-- Result messages (`Success!`, `Try again!`) — no testid on the text paragraphs
-- Animal table rows and filter checkboxes
-- Speed/Wait game countdown display
-- Cat shelter list items and toggle buttons
+1. **Every interactive element should be targetable** — test-ids, aria-labels, semantic HTML
+2. **Every state change should be verifiable** — expose state in DOM attributes, not just CSS
+3. **Behavior should be documented** — expected inputs, outputs, edge cases per route
+4. **Data should be resettable** — no manual cleanup between test runs
+5. **Real-world patterns should be represented** — loading, errors, dialogs, async, responsive
 
-**Why:** Test tools (including Boozang) benefit from stable anchors. Test IDs are the most resilient selector strategy — they survive CSS, text, and structural changes.
+---
 
-### 2. Fix the "empty row" bug in Tables
-Arthur (unliked animal) renders as an empty `<tr>` with no cell content visible to accessibility tools. This appears to be a conditional rendering issue where unliked items get different markup.
+## Testability (make it easy to automate)
 
-**Why:** This creates a blind spot for any DOM-based tool. The item exists but is invisible in the accessibility tree.
+### 1. Complete `data-testid` coverage
+Add test IDs to every interactive and verifiable element:
 
-### 3. Add a Canvas Game test page
-`/canvasGame` exists but was not tested. Canvas is a fundamentally different rendering target — DOM-based tools can't inspect it. This is a valuable edge case.
+| Missing on | Suggested testid |
+|-----------|-----------------|
+| Result messages (Success/Try again) | `result-message`, `result-submessage` |
+| Speed/Wait game reaction time display | `reaction-time` |
+| Table filter checkboxes | `filter-lion`, `filter-elephant`, `filter-zebra` |
+| Table rows | `animal-row-{name}` |
+| Table like buttons | `like-{name}` |
+| Cat shelter list items | `cat-item-{id}` |
+| Cat shelter toggle buttons | `toggle-home-{id}` |
+| Visual Bugs image + label | `visual-bug-image`, `visual-bug-label` |
+| Scramble buttons (puma/tiger) | `scramble-btn-one`, `scramble-btn-two` |
+| Pagination buttons | `pagination-next`, `pagination-prev` |
 
-**Why:** Canvas testing is a known gap for playwright-cli and most browser automation tools. Having a well-designed canvas test target would strengthen the evaluation.
+**Why:** Test IDs are the universal stable anchor. Every tool (Playwright, Cypress, Boozang, Selenium) benefits. This is the single highest-impact change.
 
-### 4. Add explicit visual bugs to Visual Bugs
-The current implementation has the image alt text and label from the same source array — they always match in the DOM. The "bugs" are only visible by looking at the actual images.
+### 2. Expose state in DOM attributes, not just CSS
+Toggle states (liked, foundHome) currently use CSS classes only. Add `aria-pressed` or `data-state` attributes:
 
-**Suggestion:** Intentionally mismatch some labels in the code:
-```js
-// Current: animals[index] used for both image and label
-// Suggested: some labels are deliberately wrong
-const labels = ["zebra", "leopard", "lion", "giraffe", "meerkat", "elephant", "cheetah"];
-// Note: image 2 (cheetah.jpg) labeled "leopard", image 7 (leopard.jpg) labeled "cheetah"
+```html
+<!-- Current: state only in CSS class -->
+<button class="new_home found">🏠</button>
+
+<!-- Improved: state in accessible attribute -->
+<button class="new_home found" aria-pressed="true" data-state="found-home">🏠</button>
 ```
 
-**Why:** This would create a detectable DOM-level bug (alt text ≠ label) that tools could catch, alongside the visual-only bugs that require image recognition.
+Apply to:
+- Cat shelter foundHome toggle → `aria-pressed="true/false"`
+- Table like toggle → `aria-pressed="true/false"`
+- Scramble button clicked state → `aria-pressed="true"`
+- Result message visibility → `data-visible="true/false"` instead of CSS opacity
+
+**Why:** DOM-based tools (all of them) can only reliably verify DOM attributes, not computed CSS. This makes state verifiable without screenshots.
+
+### 3. Fix the empty table row for unliked animals
+Arthur (unliked) renders as an empty `<tr>`. All rows should render the same structure regardless of liked state — only styling should differ.
+
+**Why:** Every row should be readable and targetable. An empty row is an accessibility bug and breaks any tool trying to enumerate table data.
+
+### 4. Add a test data reset mechanism
+Options (pick one):
+- **Script:** `scripts/reset-data.sh` that copies `data/db.json.default` → `data/db.json` and restarts json-server
+- **Endpoint:** json-server middleware that handles `POST /reset`
+- **Snapshot file:** `data/db.json.default` committed to repo, with a reset script
+
+**Why:** Every CRUD test (sorted list, form fill, cat shelter) modifies shared data. Without reset, tests must clean up after themselves or risk polluting subsequent runs.
 
 ---
 
-## Medium Priority
+## Coverage (represent real-world patterns)
 
-### 5. Add loading states with realistic delays
-Most components load instantly (json-server is local, fast). Add artificial delays to simulate real API latency:
-- Cat shelter: 500-2000ms load delay
-- Form fill: submission delay
-- Sorted/unsorted list: fetch delay with visible loading spinner
+### 5. Add configurable API delays
+Add a delay control (URL param or UI toggle) that injects latency into json-server responses:
 
-**Why:** Loading states test wait-for-element capabilities — the biggest gap we found in playwright-cli.
+```
+/todos?_delay=2000    # 2 second delay
+```
 
-### 6. Add form validation beyond password length
-Form Fill only validates password ≥ 6 characters. Add:
-- Email format validation with error message
-- Required field validation (empty submit)
-- Duplicate email detection
-- Password strength indicator
+Or a global toggle in the UI: "Simulate slow network" checkbox that adds 1-3s random delay to all fetches.
 
-**Why:** Richer validation gives more negative test scenarios and tests error message detection.
+**Why:** Fast local json-server hides timing issues. Real apps have latency. Loading spinners, skeleton screens, and "please wait" states are where test tools struggle most. This was the #1 gap found in playwright-cli.
 
-### 7. Add a search/filter on Cat Shelter
-The cat list is static (no search). Add a text filter that dynamically hides/shows cats by name.
+### 6. Add confirmation dialogs on destructive actions
+Delete todo, delete cat, delete user → show `window.confirm("Are you sure?")` before proceeding.
 
-**Why:** Tests real-time filtering — snapshot must capture the filtered state, not the full list.
+**Why:** Dialog handling is a standard test automation challenge. Every tool needs to handle it. Currently untestable in TheLab.
 
-### 8. Add confirmation dialogs
-Delete operations (todos, cats, users) happen immediately without confirmation. Add `window.confirm()` dialogs.
+### 7. Add inline validation with real-time error messages
+Form Fill should validate as the user types, not just on submit:
+- Email format check on blur
+- Password strength meter (weak/medium/strong)
+- "Required" error when field is emptied
+- Character count on description fields
 
-**Why:** Dialog handling (`dialog-accept`/`dialog-dismiss`) is a playwright-cli feature we didn't test. Boozang should handle this too.
+**Why:** Real-time validation creates dynamic error messages that appear/disappear — tests must handle elements that come and go.
 
----
+### 8. Add a sortable table column
+Tables page should allow clicking column headers to sort by Name, Species, or Hairdo.
 
-## Low Priority
+**Why:** Column sort is ubiquitous in SaaS apps. Tests must verify row order changes after sort — a harder version of the sorted/unsorted list pattern.
 
-### 9. Add dark mode toggle
-A theme toggle that changes CSS variables across the entire app.
+### 9. Add drag-and-drop
+Add a simple drag-and-drop reorder on the sorted list (reorder todos by dragging).
 
-**Why:** Tests whether tools can detect theme changes (CSS custom properties). Also good for visual regression testing.
+**Why:** Drag-and-drop is a known hard problem for test automation. `drag` is a playwright-cli command we didn't test.
 
-### 10. Add responsive breakpoint tests
-The app uses Bootstrap responsive classes but we only tested at one viewport size.
+### 10. Add file upload
+Cat shelter "Add Cat" should accept an image upload for the cat's photo.
 
-**Why:** `resize` is a playwright-cli command we didn't exercise. Responsive layout changes are a visual testing target.
-
-### 11. Add error boundary page
-Create a route that intentionally throws a React error to test error state handling.
-
-**Why:** Error boundaries change the entire page content. Tests whether tools can detect and recover from app crashes.
-
-### 12. Add WebSocket or real-time updates
-Add a component that receives live data (e.g., chat, notifications).
-
-**Why:** Tests real-time DOM updates without user interaction — a different pattern from click-driven state changes.
+**Why:** `upload` is a playwright-cli command. File upload is a common real-world form pattern.
 
 ---
 
-## Test Infrastructure
+## Documentation (make it self-describing)
 
-### 13. Add Cucumber feature files for all components
-Some components reference feature files (`/features/speedGame.txt`) but not all have them. Complete the set.
+### 11. Add `SPEC.md` per component route
+Each route should have a spec file documenting:
 
-**Why:** BDD specs provide a natural test case structure that both humans and AI agents can follow.
+```markdown
+# /speedGame — Speed Game
 
-### 14. Add a test data reset endpoint
-json-server has no built-in reset. Add a script or endpoint that restores `data/db.json` to its original state.
+## Initial State
+- "Start Game" button visible
+- "End Game" button NOT in DOM
+- No result message
 
-**Why:** Tests that modify API data (sorted list, form fill, cat shelter) need cleanup. A reset endpoint simplifies this.
+## Interactions
+| Action | Expected Result |
+|--------|----------------|
+| Click "Start Game" | Button stays visible, countdown starts (1-10s random) |
+| Wait for countdown | "End Game" button appears in DOM |
+| Click "End Game" | Result message: "Success" + reaction time in ms |
 
-### 15. Document expected behavior per route
-Each component has "What to test?" hints, but no formal expected behavior spec. Add a `SPEC.md` per component with:
-- Initial state
-- Valid interactions
-- Expected outcomes
-- Edge cases
+## Selectors
+| Element | data-testid | aria-label |
+|---------|-------------|------------|
+| Start button | startBtn | — |
+| End button | endBtn | — |
+| Result message | result | — |
 
-**Why:** Makes the app useful as a test target for any tool evaluation, not just this session.
+## Edge Cases
+- Click "End Game" before it appears → should fail gracefully
+- Click "Start Game" twice → should reset
+```
+
+**Why:** A test bed is only useful if the tester knows what to expect. This makes TheLab usable by any team evaluating any tool — not just people who read the source code.
+
+### 12. Complete Cucumber feature files
+Some routes have feature files in `/public/features/`, others don't. Add them for all routes.
+
+**Why:** BDD specs are both human-readable and machine-parseable. AI agents can use them as test instructions directly.
+
+### 13. Add a test automation guide page
+Add a `/guide` route (or section on the home page) explaining:
+- TheLab's purpose as a test bed
+- List of challenges by category (timing, forms, visual, DOM mutations, etc.)
+- Recommended test order (simple → complex)
+- Links to specs for each route
+
+**Why:** Makes TheLab self-documenting. A new user (or AI agent) can understand the entire test surface from a single page.
+
+---
+
+## Summary: Priority Order for Implementation
+
+| # | Change | Effort | Impact |
+|---|--------|--------|--------|
+| 1 | Complete `data-testid` coverage | Low | Very High |
+| 2 | Expose state in DOM attributes (`aria-pressed`, `data-state`) | Low | Very High |
+| 3 | Fix empty table row bug | Low | Medium |
+| 4 | Add test data reset script | Low | High |
+| 5 | Add `SPEC.md` per route | Medium | High |
+| 6 | Add configurable API delays | Medium | High |
+| 7 | Add confirmation dialogs | Low | Medium |
+| 8 | Add inline form validation | Medium | Medium |
+| 9 | Complete Cucumber feature files | Medium | Medium |
+| 10 | Add sortable table columns | Medium | Medium |
+| 11 | Add drag-and-drop | Medium | Medium |
+| 12 | Add file upload | Low | Medium |
+| 13 | Add test automation guide page | Medium | Medium |
+
+Items 1-4 are quick wins that dramatically improve testability. Items 5-6 add the most value for tool evaluations. The rest round out the test bed for comprehensive coverage.
