@@ -32,3 +32,6 @@ yarn-error.log*
 
 # Audit temp config
 .audit-playwright.config.js
+
+# playwright-cli runtime artifacts
+.playwright-cli/
